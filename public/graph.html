@@ -1,0 +1,12 @@
+<div ng-controller="graphController" class="graph-container">
+	
+
+	<p ng-repeat="metric in vis.params.metrics track by $index">
+            metric {{metric.id}} - {{metric.title}} - {{metric.field}} - {{metric.type}} 
+        </p>
+
+        <p ng-repeat="agg2 in vis.params.aggs track by $index">
+            agg {{agg2.id}} - {{agg2.title}} - {{agg2.field}} - {{agg2.type}} 
+        </p>
+</div>
+

@@ -1,0 +1,228 @@
+<div class="graph-container-options" ng-controller="graphController" style="width: 100%;">
+<p ng-repeat="metric in vis.params.metrics track by $index">
+            metric {{metric.id}} - {{metric.title}} - {{metric.field}} - {{metric.type}} 
+        </p>
+
+        <p ng-repeat="agg2 in vis.params.aggs track by $index">
+            agg {{agg2.id}} - {{agg2.title}} - {{agg2.field}} - {{agg2.type}} 
+        </p>
+    <div draggable-container="$parent.vis.params.graphNodes" style="width: 100%;">
+
+        
+
+        <!--<p ng-repeat="agg in vis.aggs">
+            Hello {{agg.type}}
+        </p>-->
+
+        <!--<table>
+          <tr ng-repeat="(key, value) in vis.aggs">
+            <td> {{key}} </td> <td> {{ value }} </td>
+          </tr>
+        </table>-->
+
+                <!--{"id":"1","enabled":true,"type":"avg","schema":"metric","params":{"field":"balance"}}
+        <span class="vis-editor-agg-header-title">
+          Node settings
+        </span>-->
+
+        <div class="kuiSideBarSectionTitle">
+          <div class="kuiSideBarSectionTitle__text">
+            Node settings
+          </div>
+        </div>
+        <br>
+
+        <!--<div ng-repeat="agg in vis.aggs" draggable-item="output" style="width: 100%;">-->
+        <div ng-repeat="agg in vis.params.aggs" draggable-item="output" style="width: 100%;">
+            <div class="vis-editor-agg-header output" style="width: 100%;">
+                <!-- open/close editor -->
+                <button aria-label="{{editorOpen ? 'Close' : 'Open'}} Editor"
+                      ng-click="editorOpen = !editorOpen"
+                      type="button"
+                      class="btn btn-primary btn-xs vis-editor-agg-header-toggle">
+                    <i aria-hidden="true" ng-class="{ 'fa-caret-down': editorOpen, 'fa-caret-right': !editorOpen }" class="fa"></i>
+                </button>
+
+               
+                <!-- title - {{vis.aggs[0]._opts.field.name}}
+                {{agg.id}} - {{agg._opts.params.customLabel}} - {{agg.type}} - {{agg.params.field}}
+                
+
+                <div ng-switch on="agg._opts.schema">
+                  <div ng-switch-when="segment">
+                    <span class="vis-editor-agg-header-title">
+                      {{agg.type.title}} - {{agg._opts.params.field}} - {{agg._opts.schema}}
+                    </span>-->
+                    
+                <div>
+                  <span class="vis-editor-agg-header-title">
+                    {{agg.title}} - {{agg.field}}
+                  </span>
+                    
+
+                
+                <!-- description 
+                <span ng-if="!editorOpen" class="vis-editor-agg-header-description">
+                    {{output.label || output.formula}}
+                </span>-->
+
+                  <!-- buttons -->
+                  <div ng-show="vis.params.graphNodes.length > 1" class="vis-editor-agg-header-controls btn-group">
+                      <button
+                          ng-click="output.enabled = !output.enabled"
+                          aria-label="{{output.enabled ? 'Disable' : 'Enable'}} Output"
+                          tooltip="{{output.enabled ? 'Disable' : 'Enable'}} Output"
+                          tooltip-append-to-body="true"
+                          type="button" class="btn btn-xs">
+                        <i aria-hidden="true"
+                           class="fa"
+                           ng-class="{'fa-toggle-off': !output.enabled, 'fa-toggle-on': output.enabled}"></i>
+                      </button>
+
+                      <button draggable-handle
+                          aria-label="Modify Priority by Dragging"
+                          tooltip="Modify Priority by Dragging"
+                          tooltip-append-to-body="true"
+                          type="button"
+                          class="btn btn-xs gu-handle">
+                        <i aria-hidden="true" class="fa fa-arrows-v"></i>
+                      </button>
+
+                      <button
+                          aria-label="Remove Output" ng-click="removeGraphNodes(output, $parent.vis.params.graphNodes)"
+                          tooltip="Remove Output"
+                          tooltip-append-to-body="true"
+                          type="button" class="btn btn-xs btn-danger">
+                        <i aria-hidden="true" class="fa fa-times"></i>
+                      </button>
+                  </div>
+                </div>
+              <!-- </div> -->
+            </div>
+
+            <!-- editor -->
+            <div ng-if="editorOpen">
+                <!--<div class="form-group">
+                  <label>Formula</label>
+                  <input type="text" ng-model="output.formula" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Label</label>
+                  <input type="text" ng-model="output.label" class="form-control ng-pristine ng-untouched ng-valid">
+                </div>
+                <div class="form-group">
+                  <label>Format</label>
+                  <input type="text" ng-model="output.format" class="form-control">
+                </div>
+                <select ng-model="selectedMetric">
+                    <div ng-repeat="(id, type,_opts) in agg">
+                        <option value="{{id}}">{{type.title}} {{_opts.params.field}}</option>
+                    </div>
+                    </select>
+                <select ng-model="selectedMetric">
+                <select  ng-repeat="metric in vis.params.metrics">
+                    <option value="{{metric.id}}">{{metric.title}} {{metric.field}}</option>
+                  
+                </select>-->
+
+                <select class="form-control" ng-model="graphController">
+                  <option ng-repeat="metric in vis.params.metrics" value="{{metric.id}}">{{metric.title}} {{metric.field}}</option>
+                </select>
+
+                <div class="form-group">
+                  <label>Normalize size</label>
+                  <input type="range" ng-model="vis.params.nodeDepth" class="form-control" min="2" max="10" step="1"/>
+
+
+                  <rzslider rz-slider-model="slider.minValue"
+                          rz-slider-high="slider.maxValue"
+                          rz-slider-options="slider.options"></rzslider>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--<div ng-click="addGraphNodes($parent.vis.params.graphNodes)" class="vis-editor-agg-wide-btn">
+      <div>
+        <div class="btn btn-sm btn-primary">
+          Add column
+        </div>
+      </div>
+    </div>
+
+    <span class="vis-editor-agg-header-title">
+      Force settings
+      </span>-->
+    <br><br>
+    <div class="kuiSideBarSectionTitle">
+      <div class="kuiSideBarSectionTitle__text">
+        Force settings
+      </div>
+    </div>
+    <br>
+                <div class="form-group">
+                  <label>alphaTarget: {{ vis.params.alphaTarget }}</label></div>
+                  <input type="range" ng-model="vis.params.alphaTarget" class="form-control" min="0" max="1" step="0.1"/>
+                <div class="form-group"></div>
+                  <label>distance: {{ vis.params.distance }}</label>
+                  <input type="range" ng-model="vis.params.distance" class="form-control" min="0" max="100" step="5"/></div>
+                <div class="form-group">
+                  <label>distanceMax: {{ vis.params.distanceMax }}</label>
+                  <input type="range" ng-model="vis.params.distanceMax" class="form-control" min="0" max="500" step="5"/></div>
+                <div class="form-group">
+                  <label>strength: {{ vis.params.strength }}</label>
+                  <input type="range" ng-model="vis.params.strength" class="form-control" min="-1000" max="1900" step="10"/>
+                </div>
+
+                
+<!--
+    <div class="form-group">
+      <label>Hidden Columns</label>
+      <input type="text" ng-model="vis.params.hiddenColumns" class="form-control" placeholder="0,1,..." />
+    </div>
+
+    <div class="form-group">
+      <label>Per Page</label>
+      <input type="number" ng-model="vis.params.perPage" class="form-control">
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="vis.params.showMeticsAtAllLevels">
+        Show metrics for every bucket/level
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="vis.params.showPartialRows">
+        Show partial rows
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="metricsAtAllLevels" disabled>
+        Calculate metrics for every bucket/level
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="vis.params.showTotal">
+        Show total
+      </label>
+    </div>
+
+    <div>
+      <label>Total function</label>
+      <select ng-disabled="!vis.params.showTotal"
+              class="form-control"
+              ng-model="vis.params.totalFunc"
+              ng-options="x for x in totalAggregations">
+      </select>
+    </div>-->
+
+</div>
+

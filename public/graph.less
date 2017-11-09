@@ -1,0 +1,92 @@
+.graph-container{
+  width: 100%;
+  height: 100%;
+  border: 2px #555 dashed;
+}
+
+.graph-container-options {
+  margin-bottom: 20px;
+}
+
+.graph-vis {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: space-around;
+
+  .metric-value {
+    font-weight: bold;
+  }
+
+  .metric-container {
+    text-align: center;
+  }
+}
+
+.sss-container{
+  width: 100%;
+  height: 100%;
+  border: 2px #555 dashed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+graphreset {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.link {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill-opacity: 0.5;
+}
+
+.link.out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1000ms linear 1000ms, opacity 1000ms;
+}
+
+.link.in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 1000ms linear 1000ms, opacity 1000ms;
+}
+
+circle {
+  stroke: #fff;
+  pointer-events: all;
+  opacity: 1;
+}
+
+.node {
+  opacity: 1;
+  stroke: #fff;
+}
+
+.node.out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1000ms linear 1000ms, opacity 1000ms;
+}
+
+.node.in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 1000ms linear 1000ms, opacity 1000ms;
+}
