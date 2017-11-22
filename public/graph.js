@@ -30,7 +30,22 @@ function ForceGraphProvider(Private) {
                 strength: -200,
                 radius: 6,
                 metrics: [{ "id": "", "title": "", "field": "", "type": "" }],
-                aggs: [{ "id": "", "title": "", "field": "", "schema": "", "type": "" }]
+                buckets: [{ "id": "", "title": "", "field": "", "schema": "", "type": "" }],
+                aggs: [{ "id": "", "title": "", "field": "", "schema": "", "type": "" }],
+                metrics_controller: [{ "id": -1, "title": "Fixed", "field": "", "type": "" }],
+                aggs_controller: [{ "id": -1, "title": "Fixed", "field": "", "schema": "", "type": "" }],
+                aggs_controller_decoration: [{ "id": -1, "title": "None", "field": "", "schema": "", "type": "" }],
+                lowNodeSize: [8],
+                highNodeSize: [8],
+                lowLinkSize: [8],
+                highLinkSize: [8],
+                nodeSize: [{ "id": -1, "title": "Fixed", "field": "", "schema": "", "type": "" }],
+                linkSize: [{ "id": -1, "title": "Fixed", "field": "", "schema": "", "type": "" }],
+                imageNode: [{ "id": -1, "title": "None", "field": "", "schema": "", "type": "" }],
+                colourNode: [{ "id": -1, "title": "None", "field": "", "schema": "", "type": "" }],
+                visibleNode: [true],
+                maxMetric: [],
+                minMetric: []
             },
             editor: graphVisParamsTemplate
         },
