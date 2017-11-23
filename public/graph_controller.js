@@ -59,7 +59,7 @@ module.controller('graphController', function($scope, $element, $rootScope, Priv
 
         var simulation = d3force.forceSimulation()
             .force("collide", d3.forceCollide((function(d) { return (d.size); }) * 1.5))
-            .force("link", d3force.forceLink().id(function(d) { return d.id; }))
+            .force("link", d3force.forceLink().id(function(d) { return d.id; }).distance(100).strength(0.1))
             .force("charge", d3force.forceManyBody().distanceMax($scope.vis.params.distanceMax).strength($scope.vis.params.strength)) //200 -150
             .force("center", d3force.forceCenter(width / 2, height / 2))
             .on("tick", ticked);
@@ -205,7 +205,11 @@ module.controller('graphController', function($scope, $element, $rootScope, Priv
 
         graph = null;
         graph = { "nodes": [], "links": []};
-     
+        
+        /*function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
+          return ((max - min) * (unscaledNum - minAllowed) / (maxAllowed - minAllowed)) + min;
+        }*/
+
         if (resp) {
             var tableGroups = tabifyAggResponse($scope.vis, resp);
             //$scope.tableGroups = tableGroups;
@@ -245,11 +249,13 @@ module.controller('graphController', function($scope, $element, $rootScope, Priv
 
                     //load metrics array
                     n = 0;
-                    for (var m = aggsLength; m < (aggsLength+metricsLength); m++) {
+                    for (var m = aggsLength; m < (aggsLength+metricsLength+1); m++) {
                         metrics[n][i] = record.slice(m, m+1);
                         n=n+1;
                     }
                 });
+                console.log('metrics[0]:' + metrics[0]);
+                console.log('metrics[1]:' + metrics[1]);
 
                 var aggs = [];
                 aggs.length = 0;
@@ -269,7 +275,7 @@ module.controller('graphController', function($scope, $element, $rootScope, Priv
                 });
 
                 //console.log('metrics.length:' + metrics.length);
-                for (var n = 0;  n < metrics.length-1; n++) {
+                for (var n = 0;  n < metrics.length; n++) {
                     $scope.vis.params.minMetric[n] = metrics[n].reduce(function(a, b) { return Math.min(a, b); }) ;
                     $scope.vis.params.maxMetric[n] = metrics[n].reduce(function(a, b) { return Math.max(a, b); }) ;
                 }
@@ -285,10 +291,17 @@ module.controller('graphController', function($scope, $element, $rootScope, Priv
                     var color = '';
                     for (n = 0; n < aggsLength; n++) {
                         if (params.visibleNode[n] == true) {
+                            //console.log('$scope.vis.params.nodeSize['+n+'].id:' + $scope.vis.params.nodeSize[n].id);
+                            console.log('agg.n:' + n);
 
-                            if ($scope.vis.params.nodeSize[n].id == -1) {size = $scope.vis.params.lowNodeSize[n]; } else  
-                            { size = nr(metrics[n][i], $scope.vis.params.minMetric[n], $scope.vis.params.maxMetric[n], $scope.vis.params.lowNodeSize[n], $scope.vis.params.highNodeSize[n] ); }
+                            if ($scope.vis.params.nodeSize[n].id == -1 || ($scope.vis.params.minMetric[$scope.vis.params.nodeSize[n].id] == $scope.vis.params.maxMetric[$scope.vis.params.nodeSize[n].id])) {
+                                console.log('2 $scope.vis.params.nodeSize[n].id:' + $scope.vis.params.nodeSize[n].id);
+                                size = $scope.vis.params.lowNodeSize[n];
+                            } else {
+                                size = nr(metrics[$scope.vis.params.nodeSize[n].id][i], $scope.vis.params.minMetric[$scope.vis.params.nodeSize[n].id], $scope.vis.params.maxMetric[$scope.vis.params.nodeSize[n].id], $scope.vis.params.lowNodeSize[n], $scope.vis.params.highNodeSize[n]  );
+                            };
 
+                            console.log('size:' + size);
                             if ($scope.vis.params.imageNode[n].id !== -1) { image = aggs[($scope.vis.params.imageNode[n].id)][i]; }
 
                             if ($scope.vis.params.colourNode[n].id !== -1) { color = aggs[($scope.vis.params.colourNode[n].id)][i]; } else { n }
